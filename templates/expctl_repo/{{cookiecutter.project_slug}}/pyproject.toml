@@ -1,0 +1,14 @@
+[project]
+name = "{{cookiecutter.project_slug}}"
+version = "0.1.0"
+description = "Config-driven experiment management scaffold powered by expctl"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "pandas",
+  "pyyaml",
+  "scikit-learn"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

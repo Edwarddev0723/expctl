@@ -1,0 +1,6 @@
+{
+  "project_name": "Kaggle Experiment Framework",
+  "project_slug": "kaggle-experiment-framework",
+  "default_prediction_col": "prediction",
+  "default_id_col": "id"
+}

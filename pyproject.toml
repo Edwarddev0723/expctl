@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "expctl"
+version = "0.1.0"
+description = "Git-native experiment control framework"
+requires-python = ">=3.10"
+dependencies = ["numpy", "pandas", "PyYAML", "scikit-learn"]
+
+[tool.setuptools.packages.find]
+include = ["expctl*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
