@@ -1,7 +1,0 @@
-accuracy_mean: 0.25
-accuracy_std: 0.2041241452319315
-f1_macro_mean: 0.17777777777777778
-f1_macro_std: 0.13698697784375502
-n_folds: 3
-roc_auc_mean: 0.3333333333333333
-roc_auc_std: 0.4714045207910317
