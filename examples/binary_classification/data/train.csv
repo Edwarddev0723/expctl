@@ -1,0 +1,7 @@
+id,feature_1,feature_2,region,target
+train_1,0.0,1.0,north,0
+train_2,1.0,0.0,south,1
+train_3,0.2,0.8,east,0
+train_4,0.8,0.2,west,1
+train_5,0.1,0.9,north,0
+train_6,0.9,0.1,south,1

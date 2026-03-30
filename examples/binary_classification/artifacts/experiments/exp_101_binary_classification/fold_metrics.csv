@@ -1,0 +1,4 @@
+fold_id,repeat_id,accuracy,f1_macro,roc_auc
+0,0,1.0,1.0,1.0
+1,0,1.0,1.0,1.0
+2,0,1.0,1.0,1.0

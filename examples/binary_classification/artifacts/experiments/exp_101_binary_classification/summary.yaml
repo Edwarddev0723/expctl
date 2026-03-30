@@ -1,0 +1,7 @@
+accuracy_mean: 1.0
+accuracy_std: 0.0
+f1_macro_mean: 1.0
+f1_macro_std: 0.0
+n_folds: 3
+roc_auc_mean: 1.0
+roc_auc_std: 0.0

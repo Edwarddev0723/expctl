@@ -1,0 +1,55 @@
+schema_version: 1
+task:
+  type: regression
+
+data:
+  train_path: data/train.csv
+  test_path: data/test.csv
+  target_col: target
+  id_col: id
+  group_col: account_id
+
+features:
+  numeric:
+    - feature_1
+    - feature_2
+  categorical: []
+  derived:
+    numeric: []
+    categorical: []
+  text: null
+  ignore_text: true
+
+validation:
+  strategy: group_kfold
+  protocol_name: regression_group_v1
+  split_path: artifacts/splits/regression_group_v1.json
+  n_splits: 3
+  shuffle: false
+  random_state: 42
+
+model:
+  type: ridge_regression
+  params:
+    alpha: 1.0
+
+evaluation:
+  metrics:
+    - rmse
+    - mae
+    - r2
+  primary_metric: rmse
+
+tracking:
+  backend: local
+  experiment_name: expctl_examples
+  run_name: exp_102_regression
+  tags:
+    example: regression
+
+output:
+  dir: artifacts/experiments/exp_102_regression
+  fold_metrics_file: fold_metrics.csv
+  oof_predictions_file: oof_predictions.csv
+  summary_file: summary.yaml
+  registry_path: reports/experiment_registry.csv

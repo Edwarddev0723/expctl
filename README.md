@@ -1,6 +1,6 @@
 # expctl
 
-> 🧪 **Git-native、config-driven 的實驗控制工具包**，把 tabular ML / Kaggle 專案中常見的實驗治理流程標準化。
+> 🧪 **Public beta 的 CLI-first、config-driven 實驗框架**，把 tabular data science 專案中常見的治理與訓練流程標準化。
 
 `expctl` 專注解決這幾個常見痛點：交叉驗證切分不固定、YAML 設定錯誤太晚才爆、模型入口散落在各腳本、提交檔格式常出錯，以及實驗結果缺少一致的 registry 與摘要。這個套件把上述通用邏輯抽成可重用模組，讓專案特定的 feature engineering、模型 builder 與資料處理邏輯留在上層 repo。
 
@@ -16,7 +16,9 @@
 - 📊 **Reusable evaluation helpers**: 內建 `accuracy`、`f1_macro`、`roc_auc` 計算與 fold summary 聚合。
 - ✅ **Submission validation**: 檢查 schema、列數、ID 對齊、預測值合法性，提早攔截提交檔錯誤。
 - 🗂️ **Experiment registry utilities**: 提供 CSV registry 的讀寫、排序、row upsert、summary 解析與 metadata 推導。
-- 🏗️ **Scaffold-ready**: 內附 `templates/expctl_repo/`，可作為新實驗 repo 的起始骨架。
+- 🛠️ **Canonical CLI**: 內建 `expctl init`, `validate-config`, `build-splits`, `train`, `evaluate`, `register`, `make-submission`, `doctor`。
+- 🏗️ **Scaffold-ready**: 透過 `expctl init` 直接建立可跑的專案骨架。
+- 📚 **Beta docs & examples**: 內建 quickstart、config reference、migration guide 與官方 examples。
 
 ## 🏗️ Architecture / Core Logic
 
@@ -74,16 +76,52 @@ python -m pip install -e .
 # Optional: install dev tools
 python -m pip install -e ".[dev]"
 
+# Optional: tracking backends / text embeddings
+python -m pip install -e ".[tracking]"
+
 # Run checks
 ruff check .
 python -m pytest
 ```
 
-如果你想拿它當新專案骨架，也可以直接參考：
+## 📘 Docs & Examples
+
+- Quickstart: `docs/quickstart.md`
+- Config reference: `docs/config-reference.md`
+- Validation strategies: `docs/validation-strategies.md`
+- Tracking backends: `docs/tracking-backends.md`
+- Adapter guide: `docs/adapter-author-guide.md`
+- Migration guide: `docs/migration-guide.md`
+- Examples: `examples/`
+
+## 🧭 CLI Workflow
 
 ```bash
-templates/expctl_repo/
+expctl init my-exp-project
+cd my-exp-project
+
+expctl validate-config --config configs/experiments/example_classification.yaml
+expctl build-splits --config configs/experiments/example_classification.yaml
+expctl train --config configs/experiments/example_classification.yaml
+expctl evaluate --config configs/experiments/example_classification.yaml
+expctl register --config configs/experiments/example_classification.yaml
+expctl doctor --config configs/experiments/example_classification.yaml
 ```
+
+目前 `expctl` 的 beta contract 以 `schema_version: 1` 為主，核心 top-level sections 為：
+
+```bash
+task
+data
+features
+validation
+model
+evaluation
+tracking
+output
+```
+
+額外的 top-level key 在 beta contract 中會被視為錯誤，而舊版 config 目前仍可透過 compatibility layer 過渡，但會發出 warning。
 
 ## 💡 Quick Start / Usage
 

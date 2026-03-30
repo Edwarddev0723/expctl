@@ -1,0 +1,55 @@
+schema_version: 1
+task:
+  type: binary_classification
+
+data:
+  train_path: data/train.csv
+  test_path: data/test.csv
+  target_col: target
+  id_col: id
+
+features:
+  numeric:
+    - feature_1
+    - feature_2
+  categorical:
+    - region
+  derived:
+    numeric: []
+    categorical: []
+  text: null
+  ignore_text: true
+
+validation:
+  strategy: stratified_kfold
+  protocol_name: binary_classification_v1
+  split_path: artifacts/splits/binary_classification_v1.json
+  n_splits: 3
+  shuffle: true
+  random_state: 42
+
+model:
+  type: logistic_regression
+  params:
+    max_iter: 200
+
+evaluation:
+  metrics:
+    - accuracy
+    - f1_macro
+    - roc_auc
+  primary_metric: roc_auc
+
+tracking:
+  backend: local
+  experiment_name: expctl_examples
+  run_name: exp_101_binary_classification
+  tags:
+    example: binary_classification
+
+output:
+  dir: artifacts/experiments/exp_101_binary_classification
+  fold_metrics_file: fold_metrics.csv
+  oof_predictions_file: oof_predictions.csv
+  summary_file: summary.yaml
+  registry_path: reports/experiment_registry.csv

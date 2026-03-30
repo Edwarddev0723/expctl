@@ -1,6 +1,6 @@
 # {{cookiecutter.project_name}}
 
-Git-native、config-driven 的 Kaggle / 資料科學實驗框架骨架。
+CLI-first、config-driven 的資料科學實驗框架骨架，對齊 `expctl` public beta contract。
 
 ## 結構
 
@@ -28,6 +28,13 @@ Git-native、config-driven 的 Kaggle / 資料科學實驗框架骨架。
 
 ## 下一步
 
-1. 複製 `expctl/` 套件到這個 repo
-2. 在 `src/project/` 實作 feature catalog、model registry、submission schema
-3. 依 competition 需求客製 `AGENTS.md`
+1. 安裝 `expctl`
+2. 在 `src/project/` 實作或擴充 feature catalog、model registry、dataset loader
+3. 編輯 `configs/templates/experiment.yaml`
+4. 先執行 `expctl doctor`
+5. 執行 `expctl validate-config`, `expctl build-splits`, `expctl train`
+
+## 參考文件
+
+- `docs/README.md`
+- `README.md`

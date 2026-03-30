@@ -1,0 +1,54 @@
+{
+  "folds": [
+    {
+      "fold_id": 0,
+      "repeat_id": 0,
+      "train_indices": [
+        0,
+        1
+      ],
+      "valid_indices": [
+        2,
+        3
+      ]
+    },
+    {
+      "fold_id": 1,
+      "repeat_id": 0,
+      "train_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "valid_indices": [
+        4,
+        5
+      ]
+    },
+    {
+      "fold_id": 2,
+      "repeat_id": 0,
+      "train_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "valid_indices": [
+        6,
+        7
+      ]
+    }
+  ],
+  "n_repeats": 1,
+  "n_samples": 8,
+  "n_splits": 3,
+  "protocol_name": "time_series_regression_v1",
+  "repeated": false,
+  "seed": 0,
+  "shuffle": false,
+  "strategy": "time_series_split"
+}

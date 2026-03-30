@@ -4,14 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "expctl"
-version = "0.1.0"
-description = "Git-native experiment control framework"
+version = "0.5.0"
+description = "Public beta CLI-first experiment framework for reusable data science workflows"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 keywords = ["machine-learning", "experimentation", "kaggle", "ml-tooling"]
+authors = [{ name = "Edward Huang" }]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
@@ -27,8 +28,18 @@ classifiers = [
 ]
 dependencies = ["numpy", "pandas", "PyYAML", "scikit-learn"]
 
+[project.urls]
+Homepage = "https://github.com/edwardhuang/expctl"
+Documentation = "https://github.com/edwardhuang/expctl/tree/main/docs"
+Repository = "https://github.com/edwardhuang/expctl"
+Issues = "https://github.com/edwardhuang/expctl/issues"
+
+[project.scripts]
+expctl = "expctl.cli:main"
+
 [project.optional-dependencies]
 dev = ["coverage[toml]>=7.6", "pytest>=8.3", "pytest-cov>=5.0", "ruff>=0.11.0"]
+tracking = ["mlflow>=2.16", "sentence-transformers>=3.0", "wandb>=0.18"]
 
 [tool.setuptools]
 license-files = ["LICENSE"]

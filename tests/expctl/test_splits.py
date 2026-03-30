@@ -5,7 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from expctl.splits import build_stratified_folds, get_fold_indices, load_folds, save_folds
+from expctl.splits import (
+    build_stratified_folds,
+    build_validation_folds,
+    get_fold_indices,
+    load_folds,
+    save_folds,
+)
 
 
 def test_build_stratified_folds_supports_shuffle_false() -> None:
@@ -86,3 +92,32 @@ def test_load_folds_rejects_leaky_artifact(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="train/valid leakage detected"):
         load_folds(path)
+
+
+def test_build_group_kfold_artifact() -> None:
+    artifact = build_validation_folds(
+        strategy="group_kfold",
+        protocol_name="group_v1",
+        n_splits=2,
+        groups=["a", "a", "b", "b", "c", "c"],
+    )
+
+    assert artifact["strategy"] == "group_kfold"
+    assert len(artifact["folds"]) == 2
+    train_idx, valid_idx = get_fold_indices(artifact, fold_id=0)
+    assert set(train_idx).isdisjoint(set(valid_idx))
+
+
+def test_build_time_series_artifact_preserves_temporal_order() -> None:
+    artifact = build_validation_folds(
+        strategy="time_series_split",
+        protocol_name="ts_v1",
+        n_splits=3,
+        time_order=["2024-01-03", "2024-01-01", "2024-01-04", "2024-01-02", "2024-01-05"],
+        shuffle=False,
+    )
+
+    assert artifact["strategy"] == "time_series_split"
+    assert len(artifact["folds"]) == 3
+    first_train, first_valid = get_fold_indices(artifact, fold_id=0)
+    assert max(first_train) != max(first_valid)

@@ -1,5 +1,11 @@
+schema_version: 1
+
+task:
+  type: binary_classification
+
 data:
   train_path: "data/processed/train.csv"
+  test_path: "data/processed/test.csv"
   target_col: "target"
   id_col: "{{cookiecutter.default_id_col}}"
 
@@ -13,6 +19,10 @@ features:
   ignore_text: true
 
 validation:
+  strategy: "stratified_kfold"
+  n_splits: 5
+  shuffle: true
+  random_state: 42
   split_path: "artifacts/splits/stratified_kfold_v1_seed42.json"
   protocol_name: "stratified_kfold_v1"
 
@@ -22,9 +32,19 @@ model:
 
 evaluation:
   metrics: ["accuracy"]
+  primary_metric: "accuracy"
+
+tracking:
+  backend: "local"
+  experiment_name: "{{cookiecutter.project_slug}}"
+  run_name: "exp_001_baseline"
+  tags: {}
 
 output:
   dir: "artifacts/experiments/exp_001_baseline"
   fold_metrics_file: "fold_metrics.csv"
   oof_predictions_file: "oof_predictions.csv"
-  summary_file: "cv_summary.json"
+  summary_file: "summary.yaml"
+  registry_path: "reports/experiment_registry.csv"
+  config_snapshot_file: "config.snapshot.yaml"
+  submission_file: "submission.csv"

@@ -1,0 +1,7 @@
+id,account_id,feature_1,feature_2,target
+train_1,a,1.0,10.0,5.0
+train_2,a,1.5,11.0,5.5
+train_3,b,2.0,12.0,6.0
+train_4,b,2.5,13.0,6.5
+train_5,c,3.0,14.0,7.0
+train_6,c,3.5,15.0,7.5

@@ -1,9 +1,10 @@
 # Docs
 
-這個目錄建議至少包含：
+建議至少維護這幾份文件：
 
-- config schema 說明
-- experiment workflow
-- naming rules
-- promotion policy
-- AI agent governance 補充說明
+- quickstart
+- config reference
+- validation strategy guide
+- tracking backend guide
+- adapter author guide
+- naming rules / promotion policy
