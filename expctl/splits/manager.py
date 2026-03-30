@@ -52,11 +52,13 @@ def build_stratified_folds(
             random_state=random_state,
         )
     else:
-        splitter = StratifiedKFold(
-            n_splits=n_splits,
-            shuffle=shuffle,
-            random_state=random_state,
-        )
+        splitter_kwargs: dict[str, Any] = {
+            "n_splits": n_splits,
+            "shuffle": shuffle,
+        }
+        if shuffle:
+            splitter_kwargs["random_state"] = random_state
+        splitter = StratifiedKFold(**splitter_kwargs)
 
     folds: list[dict[str, Any]] = []
     zeros = np.zeros(shape=(len(y_array), 1), dtype=np.int8)

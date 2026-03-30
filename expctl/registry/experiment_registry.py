@@ -169,7 +169,10 @@ def upsert_registry_row(
     fail_if_exists: bool = False,
 ) -> tuple[list[dict[str, str]], str]:
     exp_id = row.get("exp_id", "")
-    existing_idx = next((i for i, current in enumerate(rows) if current.get("exp_id") == exp_id), None)
+    existing_idx = next(
+        (i for i, current in enumerate(rows) if current.get("exp_id") == exp_id),
+        None,
+    )
     if existing_idx is not None and fail_if_exists:
         raise ValueError(f"Experiment already exists in registry: {exp_id}")
 

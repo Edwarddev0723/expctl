@@ -165,7 +165,8 @@ def _validate_derived_features(
     if unsupported_categorical:
         raise ConfigValidationError(
             "Unsupported derived categorical features in config.features.derived.categorical: "
-            f"{unsupported_categorical}; supported={sorted(feature_catalog.derived_categorical_features)}"
+            f"{unsupported_categorical}; "
+            f"supported={sorted(feature_catalog.derived_categorical_features)}"
         )
     return derived_numeric, derived_categorical
 
@@ -339,11 +340,13 @@ def _validate_pseudo_labeling(root: dict[str, Any], repo_root: Path) -> dict[str
     )
     if lower is None or upper is None:
         raise ConfigValidationError(
-            "config.semi_supervised.pseudo_labeling requires both lower_threshold and upper_threshold"
+            "config.semi_supervised.pseudo_labeling requires both "
+            "lower_threshold and upper_threshold"
         )
     if not 0.0 < lower < 0.5 < upper < 1.0:
         raise ConfigValidationError(
-            "config.semi_supervised.pseudo_labeling thresholds must satisfy 0 < lower < 0.5 < upper < 1"
+            "config.semi_supervised.pseudo_labeling thresholds must satisfy "
+            "0 < lower < 0.5 < upper < 1"
         )
     return pseudo_cfg
 
@@ -369,7 +372,8 @@ def _validate_training_config(root: dict[str, Any], repo_root: Path) -> dict[str
     mode = _require_str(suspicious_cfg, "mode", "config.training.suspicious_rows")
     if mode not in {"drop", "downweight", "drop_then_downweight"}:
         raise ConfigValidationError(
-            "config.training.suspicious_rows.mode must be 'drop', 'downweight', or 'drop_then_downweight'"
+            "config.training.suspicious_rows.mode must be "
+            "'drop', 'downweight', or 'drop_then_downweight'"
         )
     top_k = _optional_int(suspicious_cfg, "top_k", "config.training.suspicious_rows")
     drop_top_k = _optional_int(
@@ -395,7 +399,8 @@ def _validate_training_config(root: dict[str, Any], repo_root: Path) -> dict[str
     if mode == "downweight":
         if factor is None:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.downweight_factor is required when mode='downweight'"
+                "config.training.suspicious_rows.downweight_factor is required "
+                "when mode='downweight'"
             )
         if not 0.0 <= factor < 1.0:
             raise ConfigValidationError(
@@ -403,33 +408,40 @@ def _validate_training_config(root: dict[str, Any], repo_root: Path) -> dict[str
             )
         if drop_top_k is not None or downweight_next_k is not None:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.drop_top_k and downweight_next_k are only valid when mode='drop_then_downweight'"
+                "config.training.suspicious_rows.drop_top_k and "
+                "downweight_next_k are only valid when mode='drop_then_downweight'"
             )
     elif mode == "drop":
         if factor is not None:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.downweight_factor is only valid when mode='downweight' or mode='drop_then_downweight'"
+                "config.training.suspicious_rows.downweight_factor is only valid "
+                "when mode='downweight' or mode='drop_then_downweight'"
             )
         if drop_top_k is not None or downweight_next_k is not None:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.drop_top_k and downweight_next_k are only valid when mode='drop_then_downweight'"
+                "config.training.suspicious_rows.drop_top_k and "
+                "downweight_next_k are only valid when mode='drop_then_downweight'"
             )
     else:
         if top_k is not None:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.top_k is not used when mode='drop_then_downweight'; use drop_top_k + downweight_next_k"
+                "config.training.suspicious_rows.top_k is not used when "
+                "mode='drop_then_downweight'; use drop_top_k + downweight_next_k"
             )
         if drop_top_k is None or drop_top_k < 1:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.drop_top_k must be an integer >= 1 when mode='drop_then_downweight'"
+                "config.training.suspicious_rows.drop_top_k must be an integer >= 1 "
+                "when mode='drop_then_downweight'"
             )
         if downweight_next_k is None or downweight_next_k < 1:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.downweight_next_k must be an integer >= 1 when mode='drop_then_downweight'"
+                "config.training.suspicious_rows.downweight_next_k must be an "
+                "integer >= 1 when mode='drop_then_downweight'"
             )
         if factor is None:
             raise ConfigValidationError(
-                "config.training.suspicious_rows.downweight_factor is required when mode='drop_then_downweight'"
+                "config.training.suspicious_rows.downweight_factor is required "
+                "when mode='drop_then_downweight'"
             )
         if not 0.0 <= factor < 1.0:
             raise ConfigValidationError(
@@ -437,11 +449,13 @@ def _validate_training_config(root: dict[str, Any], repo_root: Path) -> dict[str
             )
     if mode == "drop_then_downweight" and factor is None:
         raise ConfigValidationError(
-            "config.training.suspicious_rows.downweight_factor is required when mode='drop_then_downweight'"
+            "config.training.suspicious_rows.downweight_factor is required "
+            "when mode='drop_then_downweight'"
         )
     if mode not in {"downweight", "drop_then_downweight"} and factor is not None:
         raise ConfigValidationError(
-            "config.training.suspicious_rows.downweight_factor is only valid when mode='downweight' or mode='drop_then_downweight'"
+            "config.training.suspicious_rows.downweight_factor is only valid "
+            "when mode='downweight' or mode='drop_then_downweight'"
         )
     return training_cfg
 
@@ -503,7 +517,12 @@ def validate_train_experiment_config(
         "config.features",
         feature_catalog,
     )
-    if not numeric_cols and not categorical_cols and not derived_numeric and not derived_categorical:
+    if (
+        not numeric_cols
+        and not categorical_cols
+        and not derived_numeric
+        and not derived_categorical
+    ):
         raise ConfigValidationError("At least one feature column is required in config.features")
     duplicates = _find_duplicates(
         numeric_cols + categorical_cols + derived_numeric + derived_categorical
@@ -605,7 +624,12 @@ def validate_generate_submission_config(
         "config.features",
         feature_catalog,
     )
-    if not numeric_cols and not categorical_cols and not derived_numeric and not derived_categorical:
+    if (
+        not numeric_cols
+        and not categorical_cols
+        and not derived_numeric
+        and not derived_categorical
+    ):
         raise ConfigValidationError("At least one feature column is required in config.features")
     duplicates = _find_duplicates(
         numeric_cols + categorical_cols + derived_numeric + derived_categorical
@@ -692,10 +716,20 @@ def validate_register_experiment_config(
         raise ConfigValidationError(
             "config.features.text_vectorizer requires config.features.ignore_text=false"
         )
+    if not ignore_text and text_vectorizer_cfg is None:
+        raise ConfigValidationError(
+            "config.features.ignore_text=false requires config.features.text_vectorizer"
+        )
 
     metrics = _require_str_list(eval_cfg, "metrics", "config.evaluation")
     if not metrics:
         raise ConfigValidationError("config.evaluation.metrics must not be empty")
+    unsupported = [metric for metric in metrics if metric not in feature_catalog.metrics]
+    if unsupported:
+        raise ConfigValidationError(
+            "Unsupported metrics in config.evaluation.metrics: "
+            f"{unsupported}; supported={sorted(feature_catalog.metrics)}"
+        )
 
     _require_str(output_cfg, "dir", "config.output")
     _require_str(output_cfg, "summary_file", "config.output")

@@ -71,8 +71,11 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e .
 
-# Optional: run tests
-python -m pip install pytest
+# Optional: install dev tools
+python -m pip install -e ".[dev]"
+
+# Run checks
+ruff check .
 python -m pytest
 ```
 

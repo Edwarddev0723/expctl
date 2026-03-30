@@ -23,7 +23,10 @@ def test_infer_feature_set_summarizes_text_and_derived_flags() -> None:
         },
         "preprocessing": {"use_missing_indicator": True},
     }
-    assert infer_feature_set(config) == "numeric+categorical+derived+missing_indicator+text;text_included"
+    assert (
+        infer_feature_set(config)
+        == "numeric+categorical+derived+missing_indicator+text;text_included"
+    )
 
 
 def test_upsert_registry_row_updates_existing_row() -> None:
